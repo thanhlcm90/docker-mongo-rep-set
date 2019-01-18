@@ -6,7 +6,7 @@ if [ "$MONGO_ROLE" == "primary" ]; then
 fi
 
 mongodb_cmd="gosu mongodb mongod --storageEngine $MONGO_STORAGE_ENGINE --keyFile $MONGO_KEYFILE"
-cmd="$mongodb_cmd --httpinterface --rest --replSet $MONGO_REP_SET"
+cmd="$mongodb_cmd --bind_ip_all --replSet $MONGO_REP_SET"
 
 if [ "$MONGO_AUTH" == true ]; then
   cmd="$cmd --auth"
