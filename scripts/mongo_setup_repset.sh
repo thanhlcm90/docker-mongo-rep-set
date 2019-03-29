@@ -21,5 +21,13 @@ done
 
 # Login as root and configure replica set
 gosu mongodb mongo admin -u $MONGO_ROOT_USER -p $MONGO_ROOT_PASSWORD --eval "rs.initiate();"
-gosu mongodb mongo admin -u $MONGO_ROOT_USER -p $MONGO_ROOT_PASSWORD --eval "rs.add('$MONGO_SECONDARY');"
-gosu mongodb mongo admin -u $MONGO_ROOT_USER -p $MONGO_ROOT_PASSWORD --eval "rs.addArb('$MONGO_ARBITER');"
+if [ -n "$MONGO_SECONDARY" ]
+then
+  echo "Add the MONGO_SECONDARY to repset"
+  gosu mongodb mongo admin -u $MONGO_ROOT_USER -p $MONGO_ROOT_PASSWORD --eval "rs.add('$MONGO_SECONDARY');"
+fi
+if [ -n "$MONGO_ARBITER" ]
+then
+  echo "Add the MONGO_ARBITER to repset"
+  gosu mongodb mongo admin -u $MONGO_ROOT_USER -p $MONGO_ROOT_PASSWORD --eval "rs.addArb('$MONGO_ARBITER');"
+fi

@@ -5,6 +5,8 @@ services:
     restart: always
     environment:
       - MONGO_ROLE=primary
+      - MONGO_SECONDARY=mongo2:27017
+      - MONGO_ARBITER=mongo3:27017
     tty: true
     hostname: mongo1
     image: thanhlcm90/mongo-rep-set:latest
@@ -38,4 +40,5 @@ services:
         aliases:
           - mongo3
 
-networks: main:
+networks:
+  main:
