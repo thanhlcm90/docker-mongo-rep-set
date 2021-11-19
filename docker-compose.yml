@@ -1,49 +1,58 @@
 version: "3"
 
 services:
-  mongo1:
+  mongo-rs0-1:
     restart: always
     environment:
+      - MONGO_REP_SET=rs0
+      - MONGO_PORT=28017
       - MONGO_ROLE=primary
-      - MONGO_SECONDARY=mongo2:27017
-      - MONGO_ARBITER=mongo3:27017
+      - MONGO_SECONDARY=mongo-rs0-2:28018
+      - MONGO_ARBITER=mongo-rs0-3:28019
     tty: true
-    hostname: mongo1
+    hostname: mongo-rs0-1
     image: thanhlcm90/mongo-rep-set:latest
     stdin_open: true
     ports:
-      - 28017:27017
+      - 28017:28017
     depends_on:
-      - mongo2
-      - mongo3
+      - mongo-rs0-2
+      - mongo-rs0-3
     networks:
       main:
         aliases:
-          - mongo1
+          - mongo-rs0-1
 
-  mongo2:
+  mongo-rs0-2:
     restart: always
+    environment:
+      - MONGO_PORT=28018
     tty: true
-    hostname: mongo2
+    hostname: mongo-rs0-2
     image: thanhlcm90/mongo-rep-set:latest
     stdin_open: true
+    ports:
+      - 28018:28018
     networks:
       main:
         aliases:
-          - mongo2
+          - mongo-rs0-2
 
-  mongo3:
+  mongo-rs0-3:
     restart: always
     environment:
       - JOURNALING=no
+      - MONGO_PORT=28019
     tty: true
-    hostname: mongo3
+    hostname: mongo-rs0-3
     image: thanhlcm90/mongo-rep-set:latest
     stdin_open: true
+    ports:
+      - 28019:28019
     networks:
       main:
         aliases:
-          - mongo3
+          - mongo-rs0-3
 
 networks:
   main:

@@ -15,7 +15,10 @@ Now you're ready to start launching containers.  You need to launch the secondar
 #### Secondary
 
 ```sh
-docker run -d -p 27017:27017 thanhlcm90/mongo-rep-set:latest
+docker run -d \
+  -p 28018:28018 \
+  -e MONGO_PORT="28018"
+  thanhlcm90/mongo-rep-set:latest
 ```
 
 #### Arbiter
@@ -24,7 +27,11 @@ The only difference here is you can turn off journaling. From the [official docs
 > An arbiter does not store data, but until the arbiter’s mongod process is added to the replica set, the arbiter will act like any other mongod process and start up with a set of data files and with a full-sized journal. To minimize the default creation of data, you can disable journaling.
 
 ```sh
-docker run -d -p 27017:27017 -e JOURNLING=false thanhlcm90/mongo-rep-set:latest
+docker run -d \
+  -p 28019:28019 \
+  -e JOURNLING=false \
+  -e MONGO_PORT="28019"
+  thanhlcm90/mongo-rep-set:latest
 ```
 
 #### Primary
@@ -32,9 +39,10 @@ docker run -d -p 27017:27017 -e JOURNLING=false thanhlcm90/mongo-rep-set:latest
 The primary is responsible for setting up users and configuring the replica set, so this is where all of the configuration happens. Once your secondary and arbiter are up and running, launch your primary with:
 
 ```sh
-docker run -d
-  -p 27017:27017 \
+docker run -d \
+  -p 28017:28017 \
   -e MONGO_ROLE="primary" \
+  -e MONGO_PORT="28017"
   -e MONGO_SECONDARY="hostname or IP of secondary" \
   -e MONGO_ARBITER="hostname or IP of arbiter" \
   thanhlcm90/mongo-rep-set:latest
@@ -47,8 +55,7 @@ The primary will start up, configure your root and app users, shut down, and the
 Note that the following connection url is using default env var values (more info on those below), so it should work if you haven't overwritten any of the variables yourself.
 
 ```sh
-
-mongodb://root:root@mongo1:27017,mongo2:27017/myAppDatabase?replicaSet=rs0
+mongodb://mongo-rs0-1:28017,mongo-rs0-2:28018,mongo-rs0-3:28019/myAppDatabase?replicaSet=rs0
 ```
 
 ## Environment Variables
@@ -59,5 +66,6 @@ Here are all of the available environment variables and their defaults.  Note th
 # mongod config
 MONGO_JOURNALING true
 MONGO_REP_SET rs0
+MONGO_PORT 27017
 MONGO_SECONDARY mongo2:27017
 MONGO_ARBITER mongo3:27017
