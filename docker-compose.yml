@@ -11,6 +11,11 @@ services:
     hostname: mongo1
     image: thanhlcm90/mongo-rep-set:latest
     stdin_open: true
+    ports:
+      - 28017:27017
+    depends_on:
+      - mongo2
+      - mongo3
     networks:
       main:
         aliases:
