@@ -5,12 +5,6 @@ LABEL org.opencontainers.image.authors="thanhlcm90@gmail.com"
 # mongod config
 ENV MONGO_JOURNALING true
 ENV MONGO_REP_SET rs0
-# ENV MONGO_SECONDARY mongo2:27017
-# ENV MONGO_ARBITER mongo3:27017
-
-# mongo root user (change me!)
-ENV MONGO_INITDB_ROOT_USERNAME root
-ENV MONGO_INITDB_ROOT_PASSWORD root
 
 COPY scripts $MONGO_SCRIPTS_DIR
 

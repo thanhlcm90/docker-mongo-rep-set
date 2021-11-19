@@ -37,8 +37,6 @@ docker run -d
   -e MONGO_ROLE="primary" \
   -e MONGO_SECONDARY="hostname or IP of secondary" \
   -e MONGO_ARBITER="hostname or IP of arbiter" \
-  -e MONGO_INITDB_ROOT_USERNAME="root" \
-  -e MONGO_INITDB_ROOT_PASSWORD="root" \
   thanhlcm90/mongo-rep-set:latest
 ```
 
@@ -61,10 +59,5 @@ Here are all of the available environment variables and their defaults.  Note th
 # mongod config
 MONGO_JOURNALING true
 MONGO_REP_SET rs0
-MONGO_AUTH true
 MONGO_SECONDARY mongo2:27017
 MONGO_ARBITER mongo3:27017
-
-# mongo root user
-MONGO_INITDB_ROOT_USERNAME root
-MONGO_INITDB_ROOT_PASSWORD root123
